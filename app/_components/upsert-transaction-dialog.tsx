@@ -89,8 +89,8 @@ const UpsertTransactionDialog = ({
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues ?? {
-      amount: 50,
       category: TransactionCategory.OTHER,
+      amount: 0,
       date: new Date(),
       name: "",
       paymentMethod: TransactionPaymentMethod.CASH,
@@ -102,7 +102,10 @@ const UpsertTransactionDialog = ({
 
   const onSubmit = async (data: FormSchema) => {
     try {
-      await upsertTransaction({ ...data, id: transactionId });
+      await upsertTransaction({
+        ...data,
+        id: transactionId,
+      });
       setIsOpen(false);
       form.reset();
     } catch (error) {
